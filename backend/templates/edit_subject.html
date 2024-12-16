@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Edit Subject</h2>
+  <form method="POST" action="{{ url_for('main.edit_subject', subject_id=subject.id) }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.name.label(class="form-control-label") }}
+      {{ form.name(class="form-control", value=subject.name) }}
+      {% for error in form.name.errors %}
+        <small class="form-text text-danger">{{ error }}</small>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+    <a href="{{ url_for('main.subjects') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

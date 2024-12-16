@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if current_user.is_authenticated %}
+    <h2>Welcome, {{ current_user.username }}!</h2>
+    <h3>Your Upcoming Homework</h3>
+    
+    {% if homeworks %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Subject</th>
+            <th>Due Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for hw in homeworks %}
+            <tr {% if hw.due_date < current_time %}class="table-danger"{% endif %}>
+              <td>{{ hw.description }}</td>
+              <td>{{ hw.subject.name }}</td>
+              <td>{{ hw.due_date.strftime('%d-%m-%Y') }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>You have no homework assignments.</p>
+    {% endif %}
+  {% else %}
+    <h2>Welcome to Homework Tracker!</h2>
+    <p>Please <a href="{{ url_for('main.login') }}">login</a> or <a href="{{ url_for('main.signup') }}">sign up</a> to manage your homework assignments.</p>
+  {% endif %}
+{% endblock %}
